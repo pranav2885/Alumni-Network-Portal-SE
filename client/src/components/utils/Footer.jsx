@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white py-10">
@@ -6,10 +7,27 @@ const Footer = () => {
         <div>
           <h3 className="text-xl font-semibold mb-4">Quick Links</h3>
           <ul className="space-y-2">
-            <li><a href="/" className="hover:text-blue-400">Home</a></li>
-            <li><a href="/about-us" className="hover:text-blue-400">About Us</a></li>
-            <li><a href="/contact" className="hover:text-blue-400">Contact Us</a></li>
-            <li><a href="/privacy" className="hover:text-blue-400">Privacy Policy</a></li>
+            {/* <li><a href="/" className="hover:text-blue-400">Home</a></li> */}
+            <li>
+              <Link to={"/"} className="hover:text-blue-400">
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/about-us" className="hover:text-blue-400">
+                About Us
+              </Link>
+            </li>
+            <li>
+              <Link to="/contact" className="hover:text-blue-400">
+                Contact Us
+              </Link>
+            </li>
+            <li>
+              <Link to="/privacy" className="hover:text-blue-400">
+                Privacy Policy
+              </Link>
+            </li>
           </ul>
         </div>
 
@@ -23,10 +41,18 @@ const Footer = () => {
 
         {/* Newsletter Subscription */}
         <div>
-          <h3 className="text-xl font-semibold mb-4">Subscribe to Newsletter</h3>
+          <h3 className="text-xl font-semibold mb-4">
+            Subscribe to Newsletter
+          </h3>
           <form className="flex flex-col">
-            <input type="email" placeholder="Enter your email" className="p-2 rounded text-gray-900 mb-2" />
-            <button className="p-2 bg-blue-600 hover:bg-blue-700 rounded text-white">Subscribe</button>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="p-2 rounded text-gray-900 mb-2"
+            />
+            <button className="p-2 bg-blue-600 hover:bg-blue-700 rounded text-white">
+              Subscribe
+            </button>
           </form>
         </div>
       </div>
