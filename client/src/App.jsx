@@ -1,7 +1,7 @@
 import React from "react";
 import AllRoutes from "./AllRoutes";
-import Footer from "./components/utils/Footer";
-import Navbar from "./components/utils/Navbar";
+import Navbar from './utils/Navbar'
+import Footer from './utils/Footer'
 
 export default function App() {
   return (

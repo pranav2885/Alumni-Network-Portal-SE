@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const mongoose = require('mongoose')
 const cors = require("cors");
 const path = require("path");
 require("dotenv").config();
@@ -8,7 +9,7 @@ require("dotenv").config();
 app.use(express.json());
 
 // CORS Policy
-const allowedOrigins = ["http://localhost:5173"];
+const allowedOrigins = ["http://localhost:5173"]; 
 
 app.use((req, res, next) => {
   const origin = req.headers.origin;
@@ -22,18 +23,21 @@ app.use((req, res, next) => {
 });
 
 // Connect to MongoDB
-// mongoose
-//   .connect(process.env.MONGODB_URI, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//   })
-//   .then(() => console.log("MongoDB connected"))
-//   .catch((err) => console.error(`Error connecting to MongoDB: ${err}`));
+mongoose
+  .connect(process.env.MONGODB_URI, {
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true,
+  })
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.error(`Error connecting to MongoDB: ${err}`));
 
 // Routes
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "/index.html"));
 });
+
+const OAuthRoute = require('../routes/OAuth')
+app.use(OAuthRoute)
 
 // Start Server
 const PORT = process.env.PORT || 5000;

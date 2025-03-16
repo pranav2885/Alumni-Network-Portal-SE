@@ -1,11 +1,58 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
-import logo from "../../assets/logo.png";
+import { jwtDecode } from "jwt-decode";
+import logo from "../assets/logo.png";
 
 import { RiMenu4Line } from "react-icons/ri";
 import { IoCloseOutline } from "react-icons/io5";
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const googleLoginUrl = () => {
+    const params = new URLSearchParams({
+      client_id:
+        "887297308007-pmo0pi3v46qtpjkvtqps856ocd9lkdsf.apps.googleusercontent.com",
+      redirect_uri: "http://localhost:5500/api/auth/callback/google",
+      response_type: "code",
+      scope: "openid profile email",
+      access_type: "offline",
+      prompt: "consent",
+    });
+    return `https://accounts.google.com/o/oauth2/v2/auth?${params}`;
+  };
+
+  const handleSignIn = () => {
+    window.location.href = googleLoginUrl();
+  };
+
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const urlAccessToken = url.searchParams.get("token");
+
+    if (urlAccessToken) {
+      localStorage.setItem("accessToken", urlAccessToken);
+    }
+
+    const accessToken = urlAccessToken || localStorage.getItem("accessToken");
+
+    // Clear only the token from the URL, keeping the current pathname
+    const urlWithoutToken = window.location.origin + window.location.pathname;
+    window.history.replaceState({}, "", urlWithoutToken);
+
+    const fetchUserProfile = async () => {
+      if (accessToken) {
+        try {
+          const userProfile = jwtDecode(accessToken);
+          console.log(userProfile);
+        } catch (error) {
+          console.error("Invalid or expired token:", error);
+          localStorage.removeItem("accessToken");
+        }
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
 
   return (
     <nav className="bg-white fixed top-0 left-0 w-full shadow-lg z-50">
@@ -43,12 +90,12 @@ const Navbar = () => {
         </ul>
 
         {/* Login Button */}
-        <Link
-          to="/login"
+        <button
+          onClick={handleSignIn}
           className="hidden md:block text-gray-900 hover:text-black font-medium"
         >
           Log in →
-        </Link>
+        </button>
 
         {/* Mobile Menu Button */}
         <button
@@ -103,13 +150,15 @@ const Navbar = () => {
             </NavLink>
           </li>
           <li>
-            <Link
-              to="/login"
+            <button
+              onClick={() => {
+                setMenuOpen(false);
+                handleSignIn();
+              }}
               className="block py-2 text-black font-medium"
-              onClick={() => setMenuOpen(false)}
             >
               Log in →
-            </Link>
+            </button>
           </li>
         </ul>
       </div>
