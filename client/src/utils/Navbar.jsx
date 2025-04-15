@@ -108,7 +108,7 @@ const Navbar = () => {
 
         {/* User Profile / Login Button */}
         <div className="relative">
-          {user && user.photoUrl ? (
+          {user  ? (
             <img
               src={user.photoUrl}
               alt="Profile"

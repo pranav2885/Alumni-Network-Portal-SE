@@ -63,13 +63,34 @@ router.get("/api/auth/callback/google", async (req, res) => {
       {
         _id: currentUser._id,
         email: currentUser.email,
+        personelEmail: currentUser.personelEmail || "",
         displayName: currentUser.displayName,
         photoUrl: currentUser.photoUrl,
         role: currentUser.role,
+        Branch: currentUser.Branch || "",
+        Section: currentUser.Section || "",
+        School: currentUser.School || "",
+        Program: currentUser.Program || "",
+        PassedOut: currentUser.PassedOut || "",
+        CGPA: currentUser.CGPA || "",
+        mobile: currentUser.mobile || "",
+        gender: currentUser.gender || "",
+        dob: currentUser.dob || "",
+        job: currentUser.job || "",
+        position: currentUser.position || "",
+        Salary: currentUser.Salary || "",
+        MastersCollege: currentUser.MastersCollege || "",
+        MastersProgram: currentUser.MastersProgram || "",
+        PresentLocation: currentUser.PresentLocation || "",
+        PresentStatus: currentUser.PresentStatus || "",
+        LinkedIn: currentUser.LinkedIn || "",
+        PathChosen: currentUser.PathChosen || "",
+        id: currentUser.id || "",
       },
       process.env.JWT_SECRET,
       { expiresIn: "1hr" }
     );
+    
 
     // console.log(`JWT Token: ${jwt_access_token}`);
     // console.log(`${process.env.CLIENT_BASE_URI}/?token=${jwt_access_token}`)
