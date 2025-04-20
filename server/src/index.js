@@ -39,6 +39,10 @@ app.get("/", (req, res) => {
 const OAuthRoute = require('../routes/OAuth')
 app.use(OAuthRoute)
 
+const threadRoutes = require("../routes/ThreadRoutes");
+app.use("/api/threads", threadRoutes);
+
+
 // Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
