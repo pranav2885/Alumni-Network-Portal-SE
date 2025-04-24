@@ -10,6 +10,7 @@ import Profile from "./pages/Profile";
 import Threads from "./pages/Threads";
 import CreateThread from "./pages/CreateThread";
 import ThreadDetail from "./pages/ThreadDetail";
+import AlumniProfile from "./pages/AlumniProfile"; // 🆕 new component
 import { Link } from "react-router-dom";
 
 export default function AllRoutes() {
@@ -25,8 +26,8 @@ export default function AllRoutes() {
       <Route path="/threads/create" element={<CreateThread />} />
       <Route path="/threads/:id" element={<ThreadDetail />} />
       <Route path="/jobs" element={<Job_Board />} />
-      <Route path="/threads" element={<Threads />} />
       {user?.email && <Route path="/profile" element={<Profile />} />}
+      <Route path="/alumni/:id" element={<AlumniProfile />} /> {/* 🆕 dynamic profile route */}
     </Routes>
   );
 }
