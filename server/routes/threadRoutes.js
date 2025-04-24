@@ -1,51 +1,20 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const Thread = require("../models/Thread");
+const threadController = require('../controllers/threadController');
 
-// Get all threads
-router.get("/", async (req, res) => {
-  try {
-    const threads = await Thread.find()
-      .populate("author", "name email")
-      .populate("comments.author", "name")
-      .sort({ createdAt: -1 });
-    res.json(threads);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+// Route for getting all threads
+router.get('/', threadController.getThreads);
 
-// Create a new thread
-router.post("/", async (req, res) => {
-  const { title, content, author, tags } = req.body;
-  try {
-    const newThread = new Thread({
-      title,
-      content,
-      author,
-      tags,
-    });
-    const savedThread = await newThread.save();
-    const populated = await savedThread.populate("author", "name email");
-    res.status(201).json(populated);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
+// Route for creating a new thread
+router.post('/', threadController.createThread);
 
-// Add a comment to a thread
-router.post("/:id/comments", async (req, res) => {
-  const { content, author } = req.body;
-  try {
-    const thread = await Thread.findById(req.params.id);
-    thread.comments.push({ content, author });
-    thread.updatedAt = new Date();
-    const updatedThread = await thread.save();
-    const populated = await updatedThread.populate("comments.author", "name");
-    res.status(201).json(populated.comments.at(-1));
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
+// Route for adding a comment to a thread
+router.post('/:id/comments', threadController.addCommentToThread);
+
+// Route for liking a thread
+router.post('/:id/like', threadController.likeThread);
+
+// Route for deleting a thread
+router.delete('/:id', threadController.deleteThread);
 
 module.exports = router;
